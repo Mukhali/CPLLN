@@ -1,0 +1,555 @@
+# 还记得刚开始接触 Python 的时候，
+# 他的口号是：生命短暂，请用Python
+# 还是比较喜欢 REPL 
+# dir()
+# Python 中语句的缩进很重要，因为他用缩进来控制程序结构
+# 不像Ruby等 end，或者 Scheme 的()
+# Python 很多东西都是官方规定了并提供了，所以对程序员友好，
+# 但其它语言也学了这一招，所以生命短暂，未必 Python
+# 变量命名是小写，用下划线分隔单词，和 Javascript 的不同
+# 列表 []、元组 ()、集合 {} 
+# Python3 支持unicode，
+
+""" 
+    多行字符串可以用
+    三个引号包裹，不过这也可以被当做
+    多行注释
+"""
+
+## 原始数据
+
+# Python 的数据不需要定义类型，系统会完成那些工作
+
+3        # => 3
+2.0      #
+
+True
+False
+
+# 字符串通过 "" 或者 '' 
+"hello world"
+'hello world'
+
+chr(ord('A'))                   # 数字和字符的关系
+
+None    # None 是对象
+
+## 基本操作
+
+# 简单的算数
+1 + 1  # => 2
+8 - 1  # => 7
+10 * 2  # => 20
+35 / 5  # => 7.0                 ## 自动换成浮点表示
+
+# 整数的除法会自动取整           ## 自动取整使用//
+5 // 2  # => 2
+
+# 浮点数运算
+11.0 / 4.0  # => 2.75 精确多了
+
+# 模除
+7 % 3 # => 1
+
+# x的y次方
+2**4 # => 16
+
+# 括号具有最高优先级
+(1 + 3) * 2  # => 8
+
+# 用 not 来取非
+not True  # => False
+not False  # => True
+                     
+0 and 2 #=> 0                     ## 整数也可以当作布尔值
+-5 or 0 #=> -5
+0 == False #=> True
+2 == True #=> False
+1 == True #=> True
+
+# 相等
+1 == 1  # => True
+2 == 1  # => False
+
+# 不等
+1 != 1  # => False
+2 != 1  # => True
+
+# 更多的比较操作符
+1 < 10  # => True
+1 > 10  # => False
+2 <= 2  # => True
+2 >= 2  # => True
+
+# 比较运算可以连起来写！
+1 < 2 < 3  # => True
+2 < 3 < 2  # => False
+
+# 字符串通过加号拼接
+"Hello " + "world!"  # => "Hello world!"
+
+# 字符串可以被视为字符的列表
+"This is a string"[0]  # => 'T'
+
+# % 可以用来格式化字符串
+"%s can be %s" % ("strings", "interpolated")  
+# 用 %s 和 C 类似，在 Racket 中使用 ~a
+
+# 也可以用 format 方法来格式化字符串，推荐使用这个方法
+"{0} can be {1}".format("strings", "formatted")
+# 也可以用变量名代替数字
+"{name} wants to eat {food}".format(name="Bob", food="lasagna")
+
+# 不要用相等 `==` 符号来和None进行比较要用 `is`
+"etc" is None  # => False
+None is None  # => True
+
+# 'is' 可以用来比较对象的相等性
+# 这个操作符在比较原始数据时没多少用，但是比较对象时必不可少
+
+# None, 0, 和空字符串都被算作 False
+# 其他的均为 True
+0 == False  # => True
+"" == False  # => True
+
+## 函数
+
+# 输出函数
+print （"I'm Python. Nice to meet you!"） ## 提倡用这种格式
+
+# 用 def 来新建函数
+def add(x, y):           # 注意：
+    print "x is %s and y is %s" % (x, y)
+    return x + y    # 通过 return 来返回值
+
+# 调用带参数的函数
+add(5, 6)         
+
+# 通过关键字赋值来调用函数
+add(y=6, x=5)   # 顺序是无所谓的
+
+# 我们也可以定义接受多个变量的函数，这些变量是按照顺序排列的
+def varargs(*args):
+    return args
+
+varargs(1, 2, 3)  # => (1,2,3)
+
+# 我们也可以定义接受多个变量的函数，这些变量是按照关键字排列的
+def keyword_args(**kwargs):
+    return kwargs
+
+# 实际效果：
+keyword_args(big="foot", loch="ness")  
+
+# 你也可以同时将一个函数定义成两种形式
+def all_the_args(*args, **kwargs):
+    print args
+    print kwargs
+"""
+all_the_args(1, 2, a=3, b=4) prints:
+    (1, 2)
+    {"a": 3, "b": 4}
+"""
+
+# 当调用函数的时候，我们也可以进行相反的操作，把元组和字典展开为参数
+args = (1, 2, 3, 4)
+kwargs = {"a": 3, "b": 4}
+all_the_args(*args)  # 等价于 all_the_args(1, 2, 3, 4)
+all_the_args(**kwargs)  # 等价于 all_the_args(a=3, b=4)
+all_the_args(*args, **kwargs)  # 等价于 all_the_args(1, 2, 3, 4, a=3, b=4)
+
+# 函数在 python 中是一等公民
+def create_adder(x):
+    def adder(y):
+        return x + y
+    return adder
+
+add_10 = create_adder(10)
+add_10(3)  # => 13
+
+# 匿名函数
+(lambda x: x > 2)(3)  # (3)是匿名函数的参数，语法和 Scheme 不一样
+
+# 内置高阶函数
+map(add_10, [1, 2, 3])  # => [11, 12, 13]
+filter(lambda x: x > 5, [3, 4, 5, 6, 7])  # => [6, 7]
+
+# 可以用列表方法来对高阶函数进行更巧妙的引用
+[add_10(i) for i in [1, 2, 3]]  # => [11, 12, 13]
+[x for x in [3, 4, 5, 6, 7] if x > 5]  # => [6, 7]
+
+## 变量和集合
+
+# 注意数据结构所使用的括号
+
+# 给变量赋值前不需要事先声明
+some_var = 5    # 一般建议使用小写字母和下划线组合来做为变量名
+some_var  # => 5
+
+# 访问未赋值的变量会抛出异常
+some_other_var  # 抛出 NameError
+
+# if 语句可以作为表达式来使用
+"yahoo!" if 3 > 2 else 2  # => "yahoo!"
+"yahoo!" if 1 > 2 else 2  # => 2
+
+# 列表用来保存序列
+li = []
+# 可以直接初始化列表
+other_li = [4, 5, 6]
+[1]*10             # list
+
+# 在列表末尾添加元素
+li.append(1)    # li 现在是 [1]
+li.append(2)    # li 现在是 [1, 2]
+li.append(4)    # li 现在是 [1, 2, 4]
+li.append(3)    # li 现在是 [1, 2, 4, 3]
+
+# 移除列表末尾元素
+li.pop()        # => 3 li 现在是 [1, 2, 4]
+
+# 重新加进去
+li.append(3)    # li is now [1, 2, 4, 3] again.
+
+# 像其他语言访问数组一样访问列表，可以往后看
+li[0]  # => 1
+# 访问最后一个元素
+li[-1]  # => 3
+
+# 越界会抛出异常
+li[4]  # 抛出越界异常
+
+# 切片语法需要用到列表的索引访问
+# 可以看做数学之中左闭右开区间
+li[1:3]  # => [2, 4]
+
+# 省略开头的元素
+li[2:]  # => [4, 3]
+
+# 省略末尾的元素
+li[:3]  # => [1, 2, 4]
+
+# 删除特定元素
+del li[2]  # li 现在是 [1, 2, 3]
+
+# 合并列表
+li + other_li  # => [1, 2, 3, 4, 5, 6] - 并不会不改变这两个列表
+
+# 通过拼接来合并列表
+li.extend(other_li)  # li 是 [1, 2, 3, 4, 5, 6]
+
+# 用 in 来返回元素是否在列表中 
+# 这种关键字使 Python 看起来像使用伪代码的语言
+1 in li  # => True
+
+# 返回列表长度
+len(li)  # => 6
+
+# 元组类似于列表，但它是不可改变的，return 的时候返回元组
+tup = (1, 2, 3)
+tup[0]  # => 1
+tup[0] = 3  # 类型错误
+
+# 对于大多数的列表操作，也适用于元组
+len(tup)  # => 3
+tup + (4, 5, 6)  # => (1, 2, 3, 4, 5, 6)
+tup[:2]  # => (1, 2)
+2 in tup  # => True
+
+# 你可以将元组解包赋给多个变量，解包
+a, b, c = (1, 2, 3)     # a 是 1，b 是 2，c 是 3
+
+# 如果不加括号，将会被自动视为元组
+d, e, f = 4, 5, 6
+
+# 现在我们可以看看交换两个数字是多么容易的事
+e, d = d, e     # d 是 5，e 是 4
+
+# 字典用来储存映射关系，
+# 指点中有个字段只能使用不可变类型（元组，string）
+empty_dict = {}
+
+# 字典初始化
+filled_dict = {"one": 1, "two": 2, "three": 3}
+
+# 字典也用中括号访问元素
+filled_dict["one"]  # => 1
+
+# 把所有的键保存在列表中
+filled_dict.keys()  # => ["three", "two", "one"]
+# 键的顺序并不是唯一的，得到的不一定是这个顺序
+
+# 把所有的值保存在列表中
+filled_dict.values()  # => [3, 2, 1]
+# 和键的顺序相同
+
+# 判断一个键是否存在
+"one" in filled_dict  # => True
+1 in filled_dict  # => False
+
+# 查询一个不存在的键会抛出 KeyError
+filled_dict["four"]  # KeyError
+
+# 用 get 方法来避免 KeyError
+filled_dict.get("one")  # => 1
+filled_dict.get("four")  # => None
+
+# get 方法支持在不存在的时候返回一个默认值
+filled_dict.get("one", 4)  # => 1
+filled_dict.get("four", 4)  # => 4
+
+# setdefault 是一个更安全的添加字典元素的方法
+filled_dict.setdefault("five", 5)  # filled_dict["five"] 的值为 5
+filled_dict.setdefault("five", 6)  # filled_dict["five"] 的值仍然是 5
+
+# 集合储存无顺序的元素，set 类型没有索引，所以不能进行切片操作
+empty_set = set()
+# 初始化一个集合
+some_set = set([1, 2, 2, 3, 4])  # some_set 现在是 set([1, 2, 3, 4])
+
+# Python 2.7 之后，大括号可以用来表示集合
+filled_set = {1, 2, 2, 3, 4}  # => {1 2 3 4}
+
+# 向集合添加元素
+filled_set.add(5)  # filled_set 现在是 {1, 2, 3, 4, 5}
+
+# 用 & 来计算集合的交
+other_set = {3, 4, 5, 6}
+filled_set & other_set  # => {3, 4, 5}
+
+# 用 | 来计算集合的并
+filled_set | other_set  # => {1, 2, 3, 4, 5, 6}
+
+# 用 - 来计算集合的差
+{1, 2, 3, 4} - {2, 3, 5}  # => {1, 4}
+
+# 用 in 来判断元素是否存在于集合中
+2 in filled_set  # => True
+10 in filled_set  # => False
+
+## 控制
+
+# 新建一个变量
+some_var = 5
+
+# 这是个 if 语句，在 python 中缩进是很重要的。
+# 下面的代码片段将会输出 "some var is smaller than 10"
+if some_var > 10:
+    print "some_var is totally bigger than 10."
+elif some_var < 10:    # 这个 elif 语句是不必须的
+    print "some_var is smaller than 10."
+else:           # 这个 else 也不是必须的
+    print "some_var is indeed 10."
+
+
+"""
+    用for循环遍历列表
+    输出:
+        dog is a mammal
+        cat is a mammal
+        mouse is a mammal
+"""
+for animal in ["dog", "cat", "mouse"]:
+    # 你可以用 % 来格式化字符串
+    print "%s is a mammal" % animal
+
+"""
+    `range(number)` 返回从0到给定数字的列表
+    输出:
+        0
+        1
+        2
+        3
+"""
+for i in range(4):  # i 不用初始化，range 是从零开始的
+    print i
+
+"""
+    while 循环
+    输出:
+        0
+        1
+        2
+        3
+"""
+x = 0
+while x < 4:
+    print x
+    x += 1  #  x = x + 1 的简写
+
+## 异常
+
+# 用 try/except 块来处理异常
+
+# Python 2.6 及以上适用:
+try:
+    # 用 raise 来抛出异常
+    raise IndexError("This is an index error")
+except IndexError as e:
+    pass    # pass 就是什么都不做，不过通常这里会做一些恢复工作
+
+if not 0 <= k < self._n:
+  raise IndexError('INvalid index')
+
+## 类
+
+"""
+    "单下划线" 开始的成员变量叫做保护变量，意思是只有类对象和子类对象自己
+    访问到这些变量；
+    "双下划线" 开始的是私有成员，意思是只有类对象自己能访问，连子类对象也
+    能访问到这个数据。
+    "__name__"代表python里特殊方法专用的标识，
+    如 __init__（）代表类的构造函数。对于函数的定义也是类似
+    Python 是显性调用 self
+"""
+
+# 我们新建的类是从 object 类中继承的
+class Human(object):
+
+     # 类属性，由所有类的对象共享
+    species = "H. sapiens"
+
+    # 基本构造函数
+    def __init__(self, name):
+        # 将参数赋给对象成员属性
+        self.name = name
+
+    # 成员方法，参数要有 self
+    def say(self, msg):
+        return "%s: %s" % (self.name, msg)
+
+    # 类方法由所有类的对象共享
+    # 这类方法在调用时，会把类本身传给第一个参数
+    @classmethod
+    def get_species(cls):
+        return cls.species
+
+    # 静态方法是不需要类和对象的引用就可以调用的方法
+    @staticmethod
+    def grunt():
+        return "*grunt*"
+
+
+# 实例化一个类
+i = Human(name="Ian")
+print i.say("hi")     # 输出 "Ian: hi"
+
+j = Human("Joel")
+print j.say("hello")  # 输出 "Joel: hello"
+
+# 访问类的方法
+i.get_species()  # => "H. sapiens"
+
+# 改变共享属性
+Human.species = "H. neanderthalensis"
+i.get_species()  # => "H. neanderthalensis"
+j.get_species()  # => "H. neanderthalensis"
+
+# 访问静态变量
+Human.grunt()  # => "*grunt*"
+
+## 模块
+"""
+    Python的模块其实只是普通的python文件
+    你也可以创建自己的模块，并且导入它们
+    模块的名字就和文件的名字相同
+""" 
+# 我们可以导入其他模块
+import math
+print math.sqrt(16)  # => 4
+
+# 我们也可以从一个模块中导入特定的函数
+from math import ceil, floor
+print ceil(3.7)   # => 4.0
+print floor(3.7)  # => 3.0
+
+# 从模块中导入所有的函数
+# 警告：不推荐使用
+from math import *
+
+# 简写模块名
+import math as m
+math.sqrt(16) == m.sqrt(16)  # => True
+
+# 也可以通过下面的方法查看模块中有什么属性和方法
+import math
+dir(math)
+
+## 高级用法
+
+# 用生成器(generators)方便地写惰性运算
+def double_numbers(iterable):
+    for i in iterable:
+        yield i + i
+
+# 生成器只有在需要时才计算下一个值。它们每一次循环只生成一个值，而不是把
+# 所有的值全部算好。这意味着double_numbers不会生成大于15的数字。
+#
+# range的返回值也是一个生成器，不然一个1到900000000的列表会花很多时间和
+# 内存。
+#
+# 如果你想用一个Python的关键字当作变量名，可以加一个下划线来区分。
+range_ = range(1, 900000000)
+# 当找到一个 >=30 的结果就会停
+
+for i in double_numbers(range_):
+    print(i)
+    if i >= 30:
+        break
+
+
+# 装饰器(decorators)
+# 这个例子中，beg装饰say
+# beg会先调用say。如果返回的say_please为真，beg会改变返回的字符串。
+
+from functools import wraps
+
+def beg(target_function):
+    @wraps(target_function)
+    def wrapper(*args, **kwargs):
+        msg, say_please = target_function(*args, **kwargs)
+        if say_please:
+            return "{} {}".format(msg, "Please! I am poor :(")
+        return msg
+
+    return wrapper
+
+@beg
+def say(say_please=False):
+    msg = "Can you buy me a beer?"
+    return msg, say_please
+
+print(say())  # Can you buy me a beer?
+print(say(say_please=True))  # Can you buy me a beer? Please! I am poor :(
+
+
+## 作用域和顺序
+
+"""
+    Python是静态作用域语言，尽管它自身是一个动态语言。也就是说，在Python
+    中变量的作用域是由它在源代码中的位置决定的，这与C有些相似，
+    静态作用域有利于调试语言，特别是有利于开发Debug。
+
+    局部作用域，全局作用域，内置作用域，嵌套作用域（和实现闭包有关）。
+    由作用域决定变量查找顺序
+    LEGB（L：Local，E：Enclosing，G：Global，B：Built-in）
+"""
+
+# 函数作用域
+x = 5
+
+def setX(num):
+    # 局部作用域的x和全局域的x是不同的
+    x = num # => 43
+    print (x) # => 43
+
+def setGlobalX(num):
+    global x
+    print (x) # => 5
+    x = num # 现在全局域的x被赋值
+    print (x) # => 6
+
+setX(43)
+setGlobalX(6)
+
+
