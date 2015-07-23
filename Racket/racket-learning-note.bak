@@ -1,0 +1,211 @@
+#lang racket ;声明我们使用的语言
+
+;; Racket 语言不是一种 minimalist language 而是一种 rich language，
+;; 如果你喜欢minimalist language 你应该去学习Scheme，
+;; 或者只去学习 Racket 语言中 Scheme的那一部分，
+;; Racket 和 Python 一样都是返回一个新变量，而不是修改，
+;; 这个因果好像不是这样，但我学习 Python 在前，
+
+#|
+Writing definitions outside of a module leads to bad error messages,
+bad performance, and awkward scripting to combine and run programs. 
+The problems are not specific to racket; they’re fundamental 
+limitations of the traditional top-level environment, which Scheme 
+and Lisp implementations have historically fought with ad hoc 
+command-line flags, compiler directives, and build tools. The module
+system is designed to avoid these problems, so start with #lang, and 
+you’ll be happier with Racket in the long run.
+|#
+;;; 注释
+;; 单行注释
+
+#| 块注释
+
+    #| 
+        可以嵌套
+    |#
+|#
+
+#; (被忽略的表达式)
+
+;; 绿色的是数字
+;; gray 代表文本
+;;
+
+;;; Module
+;; #lang <langname> <topform>*
+
+;;; 在 REPL 中执行文件
+;; (enter! "filename.rkt")
+;; (load "filename.rkt")
+
+;;; Identifiers 
+#|
++
+Hfuhruhurr
+integer?
+pass/fail
+john-jacob-jingleheimer-schmidt
+a-b-c+1-2-3
+|#
+
+;;; 保留字符
+;;  ( ) [ ] { } " , ' ` ; # | \
+
+
+;;; 数字   
+1111111111111111111111  ;
+#b111                   ;二进制数
+#o111                   ;
+#x111
+3.14
+6.02e+23
+1/2
+1+2i
+
+;;; 函数调用格式(f x y z ……)
+(define (bake flavor)
+  (printf "pre-heating oven...\n")
+  (string-append flavor " pie"))  
+(bake "apple")
+;; 多表达式，只返回最后一个表达式的值
+(define (nobake flavor)
+  string-append flavor "jello")
+(nobake "green")
+;; Racket 不建议使用多表达式，因为有副作用，以上就是一个具体的例子，只是返回“jello”
+
+;; 在创建列表数据的字面量，使用`来阻止它们被求值。
+`(+ 1 2)
+
+;;; 常用的数字运算
+(+ 1 2)
+(- 1 2)
+(* 2 1)
+(/ 35 5)
+(/ 1 3)          ; 1/3
+(expt 2 3)
+(quotient 5 2)   ; => 2
+(remainder 5 2)  ; => 1
+(exact->inexact 1/3)  ; => 0.333……
+(+ 1+2i 2-3i)         ; => 3-1i
+
+;;; 布尔类型
+#t
+#f  ; 除了#f外，其它任何类型都为真
+(not #t)
+(and 0 #f (error "doesn't get here")) ; => #f
+(or #f 6 (error "doesn't get here"))  ; => 6
+
+;;; 字符
+#\A     ; => #\A
+#\λ     ; => #\λ
+#\u03BB ; => #\λ
+
+;;; 定长字符串
+"Hello, world!"
+"Benjamin \"Bugsy\" Siegel"   ; \是转义字符
+"Foo\tbar\41\x21\u0021\a\r\n" ; 包含C语言的转义字符,和Unicode
+"λx:(μα.α→α).xx"              ; 字符串可以包含Unicode字符
+(string-append "Hello " "world!")
+(string-ref "Apple" 0)
+(format "~a can be ~a" "strings" "formatted")  ; 记着~a
+(printf "I'm Racket. Nice to meet you!\n")
+
+;;; 变量
+;; 使用 define 来定义
+(define some-var 5)
+some-var
+
+(define ⊆ subset?)
+(⊆ (set 3 2) (set 1 2 3))
+
+
+;;; 本地绑定
+;; 本地绑定: `me' 被绑定到 "Bob",并且只在 let 中生效
+(let ([me "Bob"])
+  "Alice"
+  me) 
+
+(let* ([me "Alice"])
+  "Bob"
+  me) 
+
+;;; 结构体
+(struct dog (name breed age))
+(define my-pet
+  (dog "lassie" "collie" 5))
+my-pet ; => #<dog>
+(dog? my-pet) ; => #t
+(dog-name my-pet) ; => "lassie"  
+;; 注意这种表达式
+
+;;; 对
+;; 对是一种不可变得，`cons' 返回对, `car' 和 `cdr' 从对中提取第1个
+;; 和第2个元素
+(cons 1 2)                         ; => '(1 . 2)
+(car (cons 1 (cons 4 2)))          ; => 1
+(cons 3 (cdr (cons 1 (cons 4 2)))) ; => '(3 4 . 2)
+
+;;; 列表
+;; 列表是一种以 'null' or '()' 结尾的'cons'
+(cons 1 (cons 2 (cons 3 null))) ; => '(1 2 3)
+;; `list' 给列表提供了一个非常方便的可变参数的生成器
+(list 1 2 3) ; => '(1 2 3)
+;; 一个单引号也可以用来表示一个列表字面量
+'(1 2 3) ; => '(1 2 3)
+(cons 4 '(1 2 3)) ; => '(4 1 2 3)
+(append '(1 2) '(3 4)) ; => '(1 2 3 4)
+(map add1 '(1 2 3))          ; => '(2 3 4)
+(map + '(1 2 3) '(10 20 30)) ; => '(11 22 33)
+(filter even? '(1 2 3 4))    ; => '(2 4)
+(count even? '(1 2 3 4))     ; => 2
+(take '(1 2 3 4) 2)          ; => '(1 2)
+(take '(1 2 3 4) 2)          ; => '(1 2)
+(take '(1 9 3 9 9 4) 4)      ; => '(1 9 3 9)
+(drop '(1 2 3 4) 2)          ; => '(3 4)
+
+;;; 向量
+#(1 2 3) ; => '#(1 2 3)
+(vector-append #(1 2 3) #(4 5 6)) ; => #(1 2 3 4 5 6)
+
+;;; Set
+;; 从一个列表创建一个Set
+(list->set '(1 2 3 1 2 3 3 2 1 3 2 1)) ; => (set 1 2 3)
+
+;; 使用 `set-add' 增加一个成员
+;; (函数式特性: 这里会返回一个扩展后的Set,而不是修改输入的值)
+(set-add (set 1 2 3) 4) ; => (set 1 2 3 4)
+
+;; 使用 `set-remove' 移除一个成员
+(set-remove (set 1 2 3) 1) ; => (set 2 3)
+
+;; 使用 `set-member?' 测试成员是否存在
+(set-member? (set 1 2 3) 1) ; => #t
+(set-member? (set 1 2 3) 4) ; => #f
+
+;;; 散列表
+;; 创建一个不变的散列表 (可变散列表的例子在下面)
+(define m (hash 'a 1 'b 2 'c 3))
+
+;; 根据键取得值
+(hash-ref m 'a) ; => 1
+
+;; 你可以给不存在的键提供一个默认值
+(hash-ref m 'd 0) ; => 0
+
+;; 获取一个不存在的键是一个异常
+; (hash-ref m 'd) => 没有找到元素
+
+;; 使用 `hash-set' 来扩展一个不可变的散列表
+;; (返回的是扩展后的散列表而不是修改它)
+(define m2 (hash-set m 'd 4))
+m2 ; => '#hash((a . 1) (b . 2) (d . 4) (c . 3))
+
+;; 使用 `hash-remove' 移除一个键值对 (函数式特性,m并不变)
+(hash-remove m 'a) ; => '#hash((b . 2) (c . 3))
+
+;;; 函数
+
+
+
+

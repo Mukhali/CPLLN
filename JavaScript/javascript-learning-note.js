@@ -1,11 +1,27 @@
+// JavaScript 中的函数也是对象，JavaScript 允许函数在包含可执行代码的同时，
+//能像其他对象一样被传递。
 // JavaScript 不仅仅可以用于前端编程，还可以用于后端。
 // 不加 var 会成为全局作用域
 // javascript 中的对象相当于其他语言中的字典或映射：是键-值的集合
-// javascript 的函数是一种对象
 // javascript 语言是一种原型语言，所以任何对象都有一个原型在背后
-// javascript 语言只存在函数作用域，那么 lambda 函数就有心用法了
+// javascript 语言只存在函数作用域，那么 lambda 函数就有新用法了
 // javascript 语言构造函数有一个属性prototype
-// javascript 语言包装类型的秒用
+// javascript 语言包装类型的妙用
+
+/* 类型
+   Number（数字）
+   String（字符串）
+   Boolean（布尔）
+   Symbol（符号）
+   Object（对象）
+     Function（函数）
+     Array（数组）
+     Date（日期）
+     RegExp（正则表达式）
+   Null（空）
+   Undefined（未定义）
+   Error（错误）
+*/
 
 
 /*多行
@@ -15,9 +31,10 @@
 var testVar = 0;
 var testVar = 0
 
-//// 数字、字符串与操作符
+//// 数字（都用浮点数表示）、字符串与操作符
 
 // Javascript 只有一种数字类型 (即 64位 IEEE 754 双精度浮点).
+0.1 + 0.2               // = 0.30000000000000004
 3                       // = 3
 1.5                     // = 1.5
 
@@ -36,6 +53,13 @@ var testVar = 0
 
 // 括号可以决定优先级
 (1 + 3) * 2             // = 8
+
+// 内置对象
+Math.sin(3.5)
+parseInt("123", 10)
+parseFloat()
+isNaN(NaN)
+isFinite(1/0)
 
 // 有三种非数字的数字类型
 Infinity                //  1/0 的结果
@@ -94,7 +118,7 @@ undefined             // 用来表示还没有设置的值
 //// 变量、数组和对象
 
 // 变量需要用 var 这个关键字声明. Javascript是动态类型语言，但是静态
-// 作用域语言，所以你在声明时无需指定类型。 赋值需要用 = 
+// 作用域语言，所以你在声明时无需指定类型。 赋值需要用 =
 var someVar = 5
 
 // 如果你在声明时没有加var关键字，你也不会得到错误
@@ -105,22 +129,63 @@ someOtherVar = 10
 var someThirdVar                        // = undefined
 
 // 对变量进行数学运算有一些简写法
-someVar += 5        // 等价于 someVar = someVar + 5; someVar 现在是 10 
+someVar += 5        // 等价于 someVar = someVar + 5; someVar 现在是 10
 someVar *= 10       // 现在 someVar 是 100
- 
+
 // 自增和自减也有简写
 someVar++           // someVar 是 101
 someVar--           // 回到 100
 
+"hello".length
+"hello".charAt(0)
+"hello".toUpperCase()
+
 // 数组是任意类型组成的有序列表
-var myArray = ["Hello", 45, true]
+var myArray = ["Hello", 45, true]  //数组字面量法（array literal）
 
 // 数组的元素可以用方括号下标来访问
 // 数组的索引从0开始
 myArray[1] // = 45
 
+// 数组还有一个特殊的length（长度）属性（数组的长度是比数组最高索引值大 1 的数）
+var a = new Array();
+a[0] = "dog";
+a[1] = "cat";
+a[2] = "hen";
+a.length
+
+//使用字面量法创建对象或数组时在括号末尾加上逗号(比如 var a = [1, 2, 3, ] )在不同浏览器中可能导致不同的结果，所以暂时不推荐这么做。
+var a = ["dog", "cat", "hen"];
+
 // 对象
+// JavaScript 中的对象可以简单理解成“名称-值”对
 {key1: "Hello", key2: "World"}
+
+// 创建一个空对象
+var obj = new Object();
+var obj = {};    //对象字面量（object literal）法。这种语法在 JSON 格式中被广
+//泛采用，一般我们优先选择第二种方法。
+
+// 对象赋值方法
+obj.name = "Simon"
+var name = obj.name;
+
+obj["name"] = "Simon";
+var name = obj["name"];
+
+// 对象字面量可以用来定义对象
+var obj = {
+    name: "Carrot",
+    "for": "Max",
+    details: {
+        color: "orange",
+        size: 12
+    }
+}
+
+// 链式（chain）访问
+obj.details.color
+obj["details"]["size"]
 
 // 键是字符串，但是引号也并非是必须的，如果键本身是合法的js标识符
 // 而值则可以是任意类型的值
@@ -177,9 +242,27 @@ if (colour == "red" || colour == "blue"){
 // && 和 || 是“短路”语句，在初始化值时会变得有用    
 var name = otherName || "default"             // 这个很有特点
 
-//// 函数、作用域和闭包
+//// 函数、递归、作用域和闭包
 
 // JavaScript 函数由function关键字定义
+// 没有使用 return 语句，或者一个没有值的 return 语句，JavaScript 会返回 undefined。
+// 参数是通过arguments对象传进去的
+function add(x, y) {
+    var total = x + y;
+    return total;
+}
+add(2, 3, 4)                               // = 5
+
+function add() {
+    var sum = 0;
+    for (var i = 0, j = arguments.length; i < j; i++) {
+        sum += arguments[i];
+    }
+    return sum;
+}
+add(2, 3, 4)                              // = 9
+
+
 function myFunction(thing){
     return thing.toUpperCase()
 }
@@ -208,6 +291,15 @@ if (true){                           // 这个不是函数
 }
 i // = 5 - 并非我们在其他语言中所得到的undefined
 
+// 匿名函数
+var avg = function() {
+    var sum = 0;
+    for (var i = 0, j = arguments.length; i < j; i++) {
+        sum += arguments[i];
+    }
+    return sum / arguments.length;
+}
+
 // 通过执行匿名函数，可以避免一些临时变量扩散到外边去
 function(){
     var temporary = 5       // 函数变量
@@ -217,6 +309,30 @@ function(){
 temporary                   // 抛出引用异常
 permanent                   // = 10
 permanent2                  // = 15
+
+// 函数的递归调用
+function countChars(elm) {
+    if (elm.nodeType == 3) { // TEXT_NODE
+        return elm.nodeValue.length;
+    }
+    var count = 0;
+    for (var i = 0, child; child = elm.childNodes[i]; i++) {
+        count += countChars(child);
+    }
+    return count;
+}
+
+// 匿名函数的递归调用 arguments.callee 
+var charsInBody = (function(elm) {
+    if (elm.nodeType == 3) { // TEXT_NODE
+        return elm.nodeValue.length;
+    }
+    var count = 0;
+    for (var i = 0, child; child = elm.childNodes[i]; i++) {
+        count += arguments.callee(child);
+    }
+    return count;
+})(document.body);
 
 // 闭包
 // 内部函数可以拥有外部函数的所有访问权
@@ -272,6 +388,80 @@ var MyConstructor = function(){
 }
 myNewObj = new MyConstructor() // = {myNumber: 5}
 myNewObj.myNumber // = 5
+
+// 将JavaScript改造成你熟悉的面向对象方法
+// first edition
+function makePerson(first, last) {
+    return {
+        first: first,
+        last: last
+    }
+}
+function personFullName(person) {
+    return person.first + ' ' + person.last;
+}
+function personFullNameReversed(person) {
+    return person.last + ', ' + person.first
+}
+s = makePerson("Simon", "Willison");
+personFullName(s)    // = Simon Willison
+personFullNameReversed(s)  // = Willison, Simon
+
+// second edition   // 使用点或花括号访问属性或方法时是this
+function makePerson(first, last) {
+    return {
+        first: first,
+        last: last,
+        fullName: function() {
+            return this.first + ' ' + this.last;
+        },
+        fullNameReversed: function() {
+            return this.last + ', ' + this.first;
+        }
+    }
+}
+s = makePerson("Simon", "Willison")
+s.fullName()    // = Simon Willison
+s.fullNameReversed()  // = Willison, Simon
+
+// third edition
+function Person(first, last) {
+    this.first = first;
+    this.last = last;
+    this.fullName = function() {
+        return this.first + ' ' + this.last;
+    }
+    this.fullNameReversed = function() {
+        return this.last + ', ' + this.first;
+    }
+}
+var s = new Person("Simon", "Willison");
+
+// fouth edition
+function personFullName() {
+    return this.first + ' ' + this.last;
+}
+function personFullNameReversed() {
+    return this.last + ', ' + this.first;
+}
+function Person(first, last) {
+    this.first = first;
+    this.last = last;
+    this.fullName = personFullName;
+    this.fullNameReversed = personFullNameReversed;
+}
+
+// fifth edition  使用原型
+function Person(first, last) {
+    this.first = first;
+    this.last = last;
+}
+Person.prototype.fullName = function() {
+    return this.first + ' ' + this.last;
+}
+Person.prototype.fullNameReversed = function() {
+    return this.last + ', ' + this.first;
+}
 
 // 每一个js对象都有一个原型，当你要访问一个没有定义过的成员时，
 // 解释器就回去找这个对象的原型
@@ -363,4 +553,47 @@ if (Object.create === undefined){ // 如果存在则不覆盖
         return new Constructor()
     }
 }
+
+
+// 一些小技巧
+var name = o && o.getName();
+var name = otherName || "default";
+
+for (var i = 0; i < a.length; i++) {
+    // Do something with a[i]
+}
+
+// better
+for (var i = 0, len = a.length; i < len; i++) {
+    // Do something with a[i]
+}
+
+// best
+for (var i = 0, item; item = a[i++];) { //数组中不含假值
+    // Do something with item
+}
+
+for (var i in a) {
+    // Do something with a[i]
+}
+
+// arguments.callee
+function counter() {
+    if (!arguments.callee.count) {
+        arguments.callee.count = 0;
+    }
+    return arguments.callee.count++;
+}
+
+counter()        // = 0
+counter()        // = 1
+
+// 原型的toString()方法打印函数内容
+var s = new Person("Simon", "Willison");
+s           // =[object Object]
+Person.prototype.toString = function() {
+    return '<Person: ' + this.fullName() + '>';
+}
+s          // = <Person: Simon Willison>
+
 

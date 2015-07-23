@@ -1,13 +1,7 @@
 ## 我的一点点学习笔记
 
 没有完整的记录，只有片段的拾遗。
-
-| ONE | TWO |  
-| ----------------- | -------------------|  
-| [![Lambda](https://github.com/danielyangmeta/CPLLN/blob/master/images/lambda.png) ](https://github.com/danielyangmeta/CPLLN/tree/master/Scheme) |[C](https://github.com/danielyangmeta/CPLLN/tree/master/C) |  
-| [![Node.js](https://github.com/danielyangmeta/CPLLN/blob/master/images/Node.js_logo.png)](https://github.com/danielyangmeta/CPLLN/tree/master/NodeJS) | [![Python](https://github.com/danielyangmeta/CPLLN/blob/master/images/Python_logo.png)](https://github.com/danielyangmeta/CPLLN/tree/master/Python) |  
-| [Ruby](https://github.com/danielyangmeta/CPLLN/tree/master/Ruby) | [![Racket](https://github.com/danielyangmeta/CPLLN/blob/master/images/Racket_logo.png)](https://github.com/danielyangmeta/CPLLN/tree/master/Racket) |  
-| [![Haskell](https://github.com/danielyangmeta/CPLLN/blob/master/images/Haskell-Logo.png)](https://github.com/danielyangmeta/CPLLN/tree/master/Haskell) | …… |
+很多东西不用就忘了，但复习一下就好，因为你懂计算机的本能。
 
 
 ## todo list

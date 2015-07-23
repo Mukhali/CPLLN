@@ -1,4 +1,4 @@
-![Lambda](https://github.com/danielyangmeta/CPLLN/blob/master/images/lambda.png) 
+![Lambda](/lambda.png) 
 
 ## 0x00 tips
     
