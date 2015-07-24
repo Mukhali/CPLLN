@@ -1,4 +1,4 @@
-![Haskell](https://github.com/Mukhali/MPLLN/tree/master/Haskell/Haskell_logo.png)
+![Haskell](https://github.com/Mukhali/MPLLN/blob/master/Haskell/Haskell_logo.png)
 
 ## 0x00 tips
     

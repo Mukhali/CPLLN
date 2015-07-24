@@ -1,4 +1,4 @@
-![Lambda](https://github.com/Mukhali/MPLLN/tree/master/Scheme/lambda_logo.png)
+![Lambda](https://github.com/Mukhali/MPLLN/blob/master/Scheme/lambda_logo.png)
 
 ## 0x00 tips
     

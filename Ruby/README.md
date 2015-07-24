@@ -1,4 +1,4 @@
-![Ruby](https://github.com/Mukhali/MPLLN/tree/master/Ruby/Ruby_logo.png)
+![Ruby](https://github.com/Mukhali/MPLLN/blob/master/Ruby/Ruby_logo.png)
 
 ## 0x00 tips
 
