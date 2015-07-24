@@ -1,4 +1,4 @@
-![Node.js](https://github.com/danielyangmeta/CPLLN/blob/master/images/Node.js_logo.png) 
+![NodeJs](https://github.com/Mukhali/MPLLN/tree/master/NodeJs/Node.js_logo.png)
 
 ## 0x00 tips
     

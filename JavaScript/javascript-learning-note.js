@@ -334,7 +334,17 @@ var charsInBody = (function(elm) {
     return count;
 })(document.body);
 
-// 闭包
+// 闭包   作用域链（scope chain）
+function makeAdder(a) {
+    return function(b) {
+        return a + b;
+    }
+}
+x = makeAdder(5);
+y = makeAdder(20);
+x(6)    // = 11
+y(7)    // = 27
+
 // 内部函数可以拥有外部函数的所有访问权
 function sayHelloInFiveSeconds(name){
     var prompt = "Hello, " + name + "!"
